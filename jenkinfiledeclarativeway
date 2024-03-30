@@ -1,0 +1,32 @@
+pipeline {
+    agent any
+
+    tools {
+  git 'Default'
+  maven 'maven3.9.6'
+}
+
+stages{
+    stage('git checkout'){
+       steps{
+             git branch: 'development', credentialsId: 'b89d3a67-8f27-47b6-9faf-8c13af4f63bc', url: 'https://github.com/heysunilaaa/maven-web-application-1.git'
+}
+}
+stage('build'){
+     steps{
+        sh "mvn clean package"
+}
+}
+stage('sonar report'){
+      steps{
+         sh "mvn sonar:sonar" 
+}
+} 
+stage('artifact repository'){
+      steps{
+         sh " mvn deploy"
+}
+
+}
+}
+}
